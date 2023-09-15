@@ -5,18 +5,25 @@ fn main() {
 
     let numbers: Vec<_> = input_file
         .lines()
-        .filter_map(|line| line.parse::<u32>().ok())
+        .filter_map(|line| line.parse::<u128>().ok())
         .collect();
 
-    let unsafe_number = find_unsafe_numbers(&numbers, 100);
+    let unsafe_numbers = find_unsafe_numbers(&numbers, 100);
 
-    match unsafe_number {
-        Some(num) => println!("EXIT: Found unsafe number: {:?}", num),
-        None => println!("all numbers are safe."),
+    if unsafe_numbers.is_empty() {
+        println!("It's Safe To Mine! All numbers are safe");
+    } else {
+        for num in unsafe_numbers{
+            println!("EXIT: Found Unsafe number{:?}", num);
+        }
     }
+
 }
 
-fn find_unsafe_numbers(numbers: &[u32], check_range: usize) -> Option<usize> {
+fn find_unsafe_numbers(numbers: &[u128], check_range: usize) -> Vec<u128> {
+
+    let mut unsafe_numbers = Vec::new();
+
     for i in check_range..numbers.len() {
         let previous_numbers = &numbers[(i - check_range)..i];
         let current_number = numbers[i];
@@ -28,10 +35,12 @@ fn find_unsafe_numbers(numbers: &[u32], check_range: usize) -> Option<usize> {
         });
 
         if !is_number_safe {
-            return Some(current_number.try_into().unwrap());
+            println!("EXIT! FOUND UNSAFE NUMBER: {} MINE ABOUT TO CRUMBLE!", current_number);
+            unsafe_numbers.push(current_number);//.try_into().unwrap());
+            //return Some(current_number.try_into().unwrap());
         }
     }
-    None
+    unsafe_numbers
 }
 
 #[cfg(test)]
@@ -42,7 +51,7 @@ mod tests {
     fn test_first_five_are_safe() {
         let test_input = vec![35, 20, 15, 25, 47];
         let find_unsafe = find_unsafe_numbers(&test_input, 5);
-        assert_eq!(find_unsafe, None);
+        assert!(find_unsafe.is_empty());
     }
 
     #[test]
@@ -53,9 +62,10 @@ mod tests {
         ];
 
         let find_unsafe = find_unsafe_numbers(&test_input, 5);
-        assert_eq!(find_unsafe, Some(127));
+        assert_eq!(find_unsafe, vec![127]);
     }
 }
+
 
 
 
@@ -85,16 +95,23 @@ mod tests {
 
 //     let previous_numbers = &unsafe_numbers[(i-100)..i];
 
-// for j in 0..100 {
+        // for j in 0..100 {
 
-//     for k in j + 1..100 {
+        //     for k in j + 1..100 {
 
-//         if previous_numbers[j] + previous_numbers[k] == current_number {
-//             println!("It's safe to continue mining; The current number:{:?} is a sum of: {:?} and {:?}", current_number, previous_numbers[j], previous_numbers[k]);
-//         } else {
-//             break;
-//         }
-//     }
+        //         if previous_numbers[j] + previous_numbers[k] == current_number {
+        //             println!("It's safe to continue mining; The current number:{:?} is a sum of: {:?} and {:?}", current_number, previous_numbers[j], previous_numbers[k]);
+        //         } else {
+        //             break;
+        //         }
+        //     }
 // }
 
 //  }
+
+
+// match unsafe_number {
+//         Some(num) => println!("EXIT: Found unsafe number: {:?}", num),
+//         None => println!("all numbers are safe."),
+//     }
+
