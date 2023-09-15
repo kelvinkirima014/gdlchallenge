@@ -57,6 +57,21 @@ mod tests {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+//    let split_input: Vec_> = input_file.lines()
+//      .filter_map(|line| line.parse::<u32>().ok())
+//      .collect();
+
 //    let first_hundred = &split_input[0..100];
 //    println!("It's first a hundred. It's safe to mine: {:?}", first_hundred);
 
