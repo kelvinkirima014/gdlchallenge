@@ -36,8 +36,7 @@ fn find_unsafe_numbers(numbers: &[u128], check_range: usize) -> Vec<u128> {
 
         if !is_number_safe {
             println!("EXIT! FOUND UNSAFE NUMBER: {} MINE ABOUT TO CRUMBLE!", current_number);
-            unsafe_numbers.push(current_number);//.try_into().unwrap());
-            //return Some(current_number.try_into().unwrap());
+            unsafe_numbers.push(current_number);
         }
     }
     unsafe_numbers
